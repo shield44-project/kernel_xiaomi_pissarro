@@ -221,7 +221,7 @@ static void generic_ops_unregister(void)
 	efivars_unregister(&generic_efivars);
 }
 
-#ifdef CONFIG_EFI_CUSTOM_SSDT_OVERLAYS
+#if IS_ENABLED(CONFIG_ACPI)
 #define EFIVAR_SSDT_NAME_MAX	16
 static char efivar_ssdt[EFIVAR_SSDT_NAME_MAX] __initdata;
 static int __init efivar_ssdt_setup(char *str)
@@ -230,7 +230,7 @@ static int __init efivar_ssdt_setup(char *str)
 		memcpy(efivar_ssdt, str, strlen(str));
 	else
 		pr_warn("efivar_ssdt: name too long: %s\n", str);
-	return 1;
+	return 0;
 }
 __setup("efivar_ssdt=", efivar_ssdt_setup);
 
